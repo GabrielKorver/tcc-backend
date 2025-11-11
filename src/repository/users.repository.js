@@ -13,7 +13,7 @@ const usersRepository = {
   },
 
   async post(nome, email, senha, avatar_url, biografia, habilidades) {
-    return await db`INSERT INTO users(nome, email, senha, avatar_url, biografia, data_criacao, habilidades)
+    return await db`INSERT INTO users(nome, email, senha, avatar_url, biografia, habilidades)
         VALUES(${nome}, ${email}, ${senha}, ${avatar_url}, ${biografia} , ${habilidades})
         `;
   },

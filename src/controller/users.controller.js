@@ -6,15 +6,7 @@ const usersController = {
   },
 
   async post(req, reply) {
-    const {
-      nome,
-      email,
-      senha,
-      avatar_url,
-      biografia,
-      habilidades,
-      palavra_passe,
-    } = req.body;
+    const { nome, email, senha, avatar_url, biografia, habilidades } = req.body;
 
     await usersRepository.post(
       nome,
@@ -22,8 +14,7 @@ const usersController = {
       senha,
       avatar_url,
       biografia,
-      habilidades,
-      palavra_passe
+      habilidades
     );
 
     return "Usuario cadastrado com sucesso!";
