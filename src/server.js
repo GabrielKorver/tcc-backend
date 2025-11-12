@@ -9,6 +9,7 @@ import cors from "@fastify/cors";
 import usersRoutes from "./routes/users.routes.js";
 import perguntasRoutes from "./routes/perguntas.routes.js";
 import nodeMailRoutes from "./routes/nodemail.routes.js";
+import assuntosRoutes from "./routes/assuntos.routes.js";
 
 //HABILITA O FASTIFY
 const fastify = Fastify({
@@ -30,6 +31,10 @@ fastify.register(usersRoutes, {
 
 fastify.register(perguntasRoutes, {
   prefix: "/perguntas",
+});
+
+fastify.register(assuntosRoutes, {
+  prefix: "/assuntos",
 });
 
 fastify.register(nodeMailRoutes, {

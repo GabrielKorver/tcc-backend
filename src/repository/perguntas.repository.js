@@ -5,27 +5,27 @@ const db = neon(
 );
 
 const perguntasRepository = {
-
   async get() {
     try {
       const perguntas = await db`
-      SELECT
-        p.id,
-        p.titulo,
-        p.descricao,
-        p.tecnologias,
-        p.data_criacao,
-        p.user_id,
-        u.nome AS user_name,
-        u.avatar_url AS user_avatar
-      FROM
-        perguntas AS p
-      JOIN
-        users AS u ON p.user_id = u.id
-      ORDER BY
-        p.data_criacao DESC
-    `;
-      // db`` retorna direto um array de objetos
+        SELECT
+          p.id,
+          p.titulo,
+          p.descricao,
+          p.data_criacao,
+          p.user_id,
+          u.nome AS user_name,
+          u.avatar_url AS user_avatar,
+          a.nome AS assunto_nome        -- Adicionado o nome do assunto
+        FROM
+          perguntas AS p
+        JOIN
+          users AS u ON p.user_id = u.id
+        LEFT JOIN                           -- Usando LEFT JOIN para mais segurança
+          assuntos AS a ON p.assunto_id = a.id
+        ORDER BY
+          p.data_criacao DESC
+      `;
       return perguntas;
     } catch (error) {
       console.error("❌ Erro ao buscar perguntas:", error);
@@ -33,12 +33,12 @@ const perguntasRepository = {
     }
   },
 
-  async post(titulo, descricao, tecnologias, data_criacao, user_id) {
-    return await db`INSERT INTO perguntas(titulo, descricao, tecnologias, data_criacao, user_id)
-        VALUES(${titulo}, ${descricao}, ${tecnologias}, ${data_criacao}, ${user_id})
-        `
-  }
-
-}
+  async post(titulo, descricao, data_criacao, user_id, assunto_id) {
+    return await db`
+        INSERT INTO perguntas(titulo, descricao, data_criacao, user_id, assunto_id)
+        VALUES(${titulo}, ${descricao}, ${data_criacao}, ${user_id}, ${assunto_id})
+    `;
+  },
+};
 
 export default perguntasRepository;

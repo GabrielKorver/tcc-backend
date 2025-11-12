@@ -1,18 +1,23 @@
-import perguntasRepository from "../repository/perguntas.repository.js"
+import perguntasRepository from "../repository/perguntas.repository.js";
 
 const perguntasController = {
-    async get() {
-        return perguntasRepository.get()
-    },
+  async get() {
+    return perguntasRepository.get();
+  },
 
-    async post(req, res) {
-        const { titulo, descricao, tecnologias, data_criacao, user_id } = req.body
+  async post(req, res) {
+    const { titulo, descricao, data_criacao, user_id, assunto_id } = req.body;
 
-        await perguntasRepository.post(titulo, descricao, tecnologias, data_criacao, user_id)
+    await perguntasRepository.post(
+      titulo,
+      descricao,
+      data_criacao,
+      user_id,
+      assunto_id
+    );
 
-        return 'Pergunta cadastrada com sucesso!'
-    }
+    return "Pergunta cadastrada com sucesso!";
+  },
+};
 
-}
-
-export default perguntasController
+export default perguntasController;
