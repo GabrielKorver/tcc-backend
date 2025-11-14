@@ -11,7 +11,7 @@ const perguntasRepository = {
         SELECT
           p.id,
           p.titulo,
-          p.descricao,
+          p.pergunta,
           p.data_criacao,
           p.user_id,
           u.nome AS user_name,
@@ -33,10 +33,10 @@ const perguntasRepository = {
     }
   },
 
-  async post(titulo, descricao, data_criacao, user_id, assunto_id) {
+  async post(titulo, pergunta, data_criacao, user_id, assunto_id) {
     return await db`
-        INSERT INTO perguntas(titulo, descricao, data_criacao, user_id, assunto_id)
-        VALUES(${titulo}, ${descricao}, ${data_criacao}, ${user_id}, ${assunto_id})
+        INSERT INTO perguntas(titulo, pergunta, data_criacao, user_id, assunto_id)
+        VALUES(${titulo}, ${pergunta}, ${data_criacao}, ${user_id}, ${assunto_id})
     `;
   },
 };

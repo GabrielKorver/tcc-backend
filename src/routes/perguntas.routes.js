@@ -8,8 +8,8 @@ export default function perguntasRoutes(fastify) {
     })
 
     //CRIAR PERGUNTAS
-    fastify.post('/post', async (req, res) => {
-        return perguntasController.post(req)
+    fastify.post('/post', async (req, reply) => {
+        return perguntasController.post(req, reply)
     })
 
 }

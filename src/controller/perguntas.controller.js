@@ -5,19 +5,39 @@ const perguntasController = {
     return perguntasRepository.get();
   },
 
-  async post(req, res) {
-    const { titulo, descricao, data_criacao, user_id, assunto_id } = req.body;
+  async post(req, reply) {
+    const { titulo, pergunta, user_id, assunto_id } = req.body;
 
-    await perguntasRepository.post(
-      titulo,
-      descricao,
-      data_criacao,
-      user_id,
-      assunto_id
-    );
+    const data_criacao = new Date().toISOString().slice(0, 19).replace("T", " ");
 
-    return "Pergunta cadastrada com sucesso!";
-  },
+    try {
+      const resultado = await perguntasRepository.post(
+        titulo,
+        pergunta,
+        data_criacao,
+        user_id,
+        assunto_id
+      );
+
+      return reply
+        .code(201)
+        .send({
+          message: "Pergunta cadastrada com sucesso!",
+          data: resultado || null
+        });
+
+    } catch (error) {
+      console.error("Erro ao cadastrar a pergunta:", error);
+
+      return reply
+        .code(500)
+        .send({
+          error: "Erro ao cadastrar pergunta"
+        });
+    }
+  }
+
+
 };
 
 export default perguntasController;
