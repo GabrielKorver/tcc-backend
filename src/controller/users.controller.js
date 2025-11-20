@@ -6,18 +6,61 @@ const usersController = {
   },
 
   async post(req, reply) {
-    const { nome, email, senha, avatar_url, biografia, habilidades } = req.body;
+    try {
+      const { nome, email, senha, avatar_url, biografia, habilidades } = req.body;
 
-    await usersRepository.post(
-      nome,
-      email,
-      senha,
-      avatar_url,
-      biografia,
-      habilidades
-    );
+      const data_criacao = new Date().toISOString().slice(0, 19).replace("T", " ");
 
-    return "Usuario cadastrado com sucesso!";
+      //  Campos obrigatórios
+      if (!nome || !email || !senha) {
+        return reply.status(400).send({
+          error: "Campos obrigatórios faltando. (nome, email e senha)"
+        });
+      }
+
+      // Email válido
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return reply.status(400).send({ error: "Email inválido." });
+      }
+
+      // Tamanho mínimo da senha
+      if (senha.length < 8) {
+        return reply.status(400).send({
+          error: "A senha deve ter pelo menos 8 caracteres."
+        });
+      }
+
+      //  Verificar se o email já existe
+      const usuarioExistente = await usersRepository.findByEmail(email);
+      if (usuarioExistente) {
+        return reply.status(409).send({
+          error: "Este email já está cadastrado."
+        });
+      }
+
+      //  Criar usuário
+      await usersRepository.post(
+        nome,
+        email,
+        senha,
+        avatar_url,
+        biografia,
+        habilidades,
+        data_criacao
+      );
+
+      return reply.status(201).send({
+        message: "Usuário cadastrado com sucesso!"
+      });
+
+    } catch (error) {
+      console.error(error);
+
+      return reply.status(500).send({
+        error: "Erro interno no servidor. Tente novamente mais tarde."
+      });
+    }
   },
 
   async put(req, reply) {

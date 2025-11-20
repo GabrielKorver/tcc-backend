@@ -12,15 +12,23 @@ const usersRepository = {
     return db`SELECT * FROM users`;
   },
 
-  async post(nome, email, senha, avatar_url, biografia, habilidades) {
-    return await db`INSERT INTO users(nome, email, senha, avatar_url, biografia, habilidades)
-        VALUES(${nome}, ${email}, ${senha}, ${avatar_url}, ${biografia} , ${habilidades})
+  async post(nome, email, senha, avatar_url, biografia, habilidades, data_criacao) {
+    return await db`INSERT INTO users(nome, email, senha, avatar_url, biografia, habilidades, data_criacao  )
+        VALUES(${nome}, ${email}, ${senha}, ${avatar_url}, ${biografia} , ${habilidades}, ${data_criacao})
         `;
+  },
+
+  async findByEmail(email) {
+    const rows = await db`
+    SELECT * 
+    FROM users 
+    WHERE email = ${email} 
+  `;
+    return rows.length > 0 ? rows[0] : null;
   },
 
   async put(id, nome, email, senha, avatar_url, biografia, habilidades) {
     try {
-      // Monta query dinâmica — só atualiza campos enviados
       const result = await db`
       UPDATE users
       SET 

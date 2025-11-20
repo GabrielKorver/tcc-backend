@@ -8,7 +8,7 @@ export default function usersRoutes(fastify) {
 
   //CRIAR USUARIO
   fastify.post("/post", async (req, reply) => {
-    return usersController.post(req);
+    return usersController.post(req, reply);
   });
 
   fastify.post("/login", async (req, reply) => {
