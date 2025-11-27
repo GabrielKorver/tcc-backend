@@ -81,6 +81,12 @@ const agendamentosController = {
                 error: "Erro interno no servidor. Tente novamente mais tarde."
             });
         }
+    },
+
+    async delete(req, reply) {
+        const { id } = req.params
+        await agendamentosRepository.delete(id)
+        return agendamentosRepository.delete()
     }
 
 

@@ -149,6 +149,13 @@ const usersController = {
     }
   },
 
+  async delete(req, reply) {
+    const { id } = req.params
+    await usersRepository.delete(id)
+    return usersRepository.delete()
+
+  },
+
   async login(req, reply) {
     try {
       const { email, senha } = req.body;

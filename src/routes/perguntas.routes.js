@@ -12,4 +12,8 @@ export default function perguntasRoutes(fastify) {
         return perguntasController.post(req, reply)
     })
 
+    fastify.delete('/delete/:id', async (req, reply) => {
+        return perguntasController.delete(req)
+    })
+
 }

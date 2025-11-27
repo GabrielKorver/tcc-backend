@@ -35,8 +35,13 @@ const perguntasController = {
           error: "Erro ao cadastrar pergunta"
         });
     }
-  }
+  },
 
+  async delete(req, reply) {
+    const { id } = req.params
+    await perguntasRepository.delete(id)
+    return perguntasRepository.delete()
+  }
 
 };
 

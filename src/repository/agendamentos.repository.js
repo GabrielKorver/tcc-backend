@@ -39,6 +39,11 @@ const agendamentosRepository = {
         `;
     },
 
+    async delete(id) {
+        await db`DELETE FROM agendamentos WHERE id = ${id}`;
+        return { message: "Agendamento deletado com sucesso!" };
+    },
+
 };
 
 export default agendamentosRepository;

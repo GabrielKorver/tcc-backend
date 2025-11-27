@@ -15,6 +15,10 @@ export default function usersRoutes(fastify) {
     return usersController.login(req, reply);
   });
 
+  fastify.delete('/delete/:id', async (req, reply) => {
+    return usersController.delete(req)
+  })
+
   fastify.put("/put/:id", async (req, reply) => {
     return usersController.put(req, reply);
   });

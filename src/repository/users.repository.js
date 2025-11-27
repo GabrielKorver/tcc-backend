@@ -49,6 +49,11 @@ const usersRepository = {
     }
   },
 
+  async delete(id) {
+    await db`DELETE FROM users WHERE id = ${id}`;
+    return { message: "Usuário deletado com sucesso!" };
+  },
+
   async getEmailSenha(email, senha) {
     const rows = await db`
     SELECT * 

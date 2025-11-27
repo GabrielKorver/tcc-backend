@@ -39,6 +39,11 @@ const perguntasRepository = {
         VALUES(${titulo}, ${pergunta}, ${data_criacao}, ${user_id}, ${assunto_id})
     `;
   },
+
+  async delete(id) {
+    await db`DELETE FROM perguntas WHERE id = ${id}`;
+    return { message: "Pergunta deletada com sucesso!" };
+  },
 };
 
 export default perguntasRepository;
