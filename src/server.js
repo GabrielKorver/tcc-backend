@@ -12,6 +12,8 @@ import nodeMailRoutes from "./routes/nodemail.routes.js";
 import assuntosRoutes from "./routes/assuntos.routes.js";
 import mentoriaRoutes from "./routes/mentoria.routes.js";
 import agendamentosRoutes from "./routes/agendamentos.routes.js";
+import dataRoutes from "./routes/data.routes.js";
+import horaRoutes from "./routes/hora.routes.js";
 
 //HABILITA O FASTIFY
 const fastify = Fastify({
@@ -45,6 +47,14 @@ fastify.register(mentoriaRoutes, {
 
 fastify.register(agendamentosRoutes, {
   prefix: "/agendamentos",
+});
+
+fastify.register(dataRoutes, {
+  prefix: "/data",
+});
+
+fastify.register(horaRoutes, {
+  prefix: "/hora",
 });
 
 fastify.register(nodeMailRoutes, {

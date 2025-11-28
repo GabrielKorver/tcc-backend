@@ -11,55 +11,37 @@ const agendamentosController = {
 
             const data_criacao = new Date().toISOString().slice(0, 19).replace("T", " ");
 
-            //  Campos obrigatórios
+            // Campos obrigatórios
             if (!nome || !telefone || !data_agendamento) {
                 return reply.status(400).send({
-                    error: "Campos obrigatórios faltando. (nome, telefone e data_agendamento)"
+                    message: "Campos obrigatórios faltando. (nome, telefone e data_agendamento)"
                 });
             }
 
-            //  Validação do telefone (Brasil)
-            // Aceita: (11)99999-9999, 11999999999, 11 99999-9999
+            // Validação telefone brasileiro
             const telefoneRegex = /^\(?\d{2}\)?\s?\d{5}-?\d{4}$/;
 
             if (!telefoneRegex.test(telefone)) {
                 return reply.status(400).send({
-                    error: "Telefone inválido. Use formato brasileiro: 11999999999 ou (11) 99999-9999"
+                    message: "Telefone inválido. Use formato 11999999999 ou (11) 99999-9999"
                 });
             }
 
-            // Validar se a data é futura
+            // Data de agendamento
             const agora = new Date();
             const dataAgendamentoDate = new Date(data_agendamento);
 
             if (isNaN(dataAgendamentoDate.getTime())) {
                 return reply.status(400).send({
-                    error: "Data de agendamento inválida"
+                    message: "Data de agendamento inválida"
                 });
             }
 
             if (dataAgendamentoDate <= agora) {
                 return reply.status(400).send({
-                    error: "A data do agendamento deve ser futura"
+                    message: "A data do agendamento deve ser futura"
                 });
             }
-
-            // Intervalo mínimo de 2 horas entre agendamentos
-            const agendamentosExistentes = await agendamentosRepository.get();
-
-            const duasHoras = 2 * 60 * 60 * 1000; // ms
-
-            const conflito = agendamentosExistentes.some(a => {
-                const dataBanco = new Date(a.data_agendamento);
-                return Math.abs(dataBanco - dataAgendamentoDate) < duasHoras;
-            });
-
-            if (conflito) {
-                return reply.status(400).send({
-                    error: "Já existe um agendamento próximo a este horário. Deve haver um intervalo mínimo de 2 horas."
-                });
-            }
-
 
             // Criar agendamento
             await agendamentosRepository.post(
@@ -78,10 +60,11 @@ const agendamentosController = {
             console.error("❌ Erro no controller:", error);
 
             return reply.status(500).send({
-                error: "Erro interno no servidor. Tente novamente mais tarde."
+                message: "Erro interno no servidor. Tente novamente mais tarde."
             });
         }
     },
+
 
     async delete(req, reply) {
         const { id } = req.params
