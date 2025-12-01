@@ -32,11 +32,29 @@ const dataController = {
         }
     },
 
+    async put(req, reply) {
+        try {
+            const { id } = req.params;
+            const { agenda_data } = req.body;
+            await dataRepository.put(id, agenda_data);
+            return reply.status(200).send({ message: "Data atualizada com sucesso!" });
+        } catch (error) {
+            console.error("Erro ao atualizar Data:", error);
+            return reply.status(500).send({ message: "Erro interno ao atualizar." });
+        }
+    },
+
     async delete(req, reply) {
-        const { id } = req.params
-        await dataRepository.delete(id)
-        return dataRepository.delete()
+        try {
+            const { id } = req.params;
+            const resultado = await dataRepository.delete(id);
+            return reply.status(200).send(resultado);
+        } catch (error) {
+            console.error("Erro ao deletar:", error);
+            return reply.status(500).send({ message: "Erro interno ao deletar." });
+        }
     }
+
 };
 
 export default dataController;

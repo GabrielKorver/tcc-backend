@@ -15,6 +15,20 @@ const dataRepository = {
           RETURNING *;   
           `;
     },
+
+    async put(id, agenda_data) {
+        return await db`
+    UPDATE data
+    SET agenda_data = ${agenda_data}
+    WHERE id = ${id}
+  `;
+    },
+
+    async delete(id) {
+        await db`DELETE FROM data WHERE id = ${id}`;
+        return { message: "Data deletada com sucesso!" };
+    }
+
 };
 
 export default dataRepository;

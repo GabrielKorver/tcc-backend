@@ -10,11 +10,11 @@ export default function horaRoutes(fastify) {
         return horaController.post(req, reply);
     });
 
-    fastify.delete('/delete/:id', async (req, reply) => {
-        return horaController.delete(req)
-    })
+    fastify.put("/put/:id", async (req, reply) => {
+        return horaController.put(req, reply);
+    });
 
-    //   fastify.put("/put/:id", async (req, reply) => {
-    //     return usersController.put(req, reply);
-    //   });
+    fastify.delete('/delete/:id', async (req, reply) => {
+        return horaController.delete(req, reply);
+    });
 }

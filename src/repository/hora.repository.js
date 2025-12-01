@@ -15,6 +15,19 @@ const horaRepository = {
           RETURNING *;   
           `;
     },
+
+    async put(id, agenda_hora) {
+        return await db`
+    UPDATE hora
+    SET agenda_hora = ${agenda_hora}
+    WHERE id = ${id}
+  `;
+    },
+
+    async delete(id) {
+        await db`DELETE FROM hora WHERE id = ${id}`;
+        return { message: "Hora deletada com sucesso!" };
+    }
 };
 
 export default horaRepository;
