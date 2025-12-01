@@ -42,12 +42,6 @@ const agendamentosController = {
         });
       }
 
-      if (dataAgendamentoDate <= agora) {
-        return reply.status(400).send({
-          message: "A data do agendamento deve ser futura",
-        });
-      }
-
       const existeAgendamento = await agendamentosRepository.findByDate(
         data_agendamento
       );
@@ -79,11 +73,30 @@ const agendamentosController = {
     }
   },
 
-  async delete(req, reply) {
-    const { id } = req.params;
-    await agendamentosRepository.delete(id);
-    return agendamentosRepository.delete();
+  async put(req, reply) {
+    try {
+      const { id } = req.params;
+      const { nome, telefone, data_agendamento } = req.body;
+      await agendamentosRepository.put(id, nome, telefone, data_agendamento);
+      return reply.status(200).send({ message: "Agendamento atualizado com sucesso!" });
+    } catch (error) {
+      console.error("Erro ao atualizar agendamento:", error);
+      return reply.status(500).send({ message: "Erro interno ao atualizar." });
+    }
   },
+
+  async delete(req, reply) {
+    try {
+      const { id } = req.params;
+
+      const resultado = await agendamentosRepository.delete(id);
+
+      return reply.status(200).send(resultado);
+    } catch (error) {
+      console.error("Erro ao deletar:", error);
+      return reply.status(500).send({ message: "Erro interno ao deletar." });
+    }
+  }
 };
 
 export default agendamentosController;

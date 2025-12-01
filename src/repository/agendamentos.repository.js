@@ -11,18 +11,7 @@ const agendamentosRepository = {
   async get() {
     try {
       const agendamentos = await db`
-            SELECT
-                a.id,
-                a.nome,
-                a.telefone,
-                a.data_agendamento,
-                a.data_criacao,
-                a.mentoria_id,
-                m.nome AS mentoria_nome
-            FROM
-                agendamentos AS a
-            JOIN
-                mentoria AS m ON a.mentoria_id = m.id
+           SELECT a.id, a.nome, a.telefone, TO_CHAR(a.data_agendamento, 'DD/MM/YYYY HH24:MI') AS data_agendamento, TO_CHAR(a.data_criacao, 'DD/MM/YYYY HH24:MI:SS') AS data_criacao, a.mentoria_id, m.nome AS mentoria_nome FROM agendamentos AS a JOIN mentoria AS m ON a.mentoria_id = m.id
         `;
 
       return agendamentos;
@@ -37,6 +26,16 @@ const agendamentosRepository = {
         VALUES (${nome}, ${telefone}, ${data_agendamento}, ${data_criacao}, ${mentoria_id})
         `;
   },
+
+  async put(id, nome, telefone, data_agendamento,) {
+    return await db`UPDATE agendamentos
+      SET nome = ${nome},
+          telefone = ${telefone},
+          data_agendamento = ${data_agendamento}
+      WHERE id = ${id}
+    `;
+  },
+
 
   async findByDate(data_agendamento) {
     try {

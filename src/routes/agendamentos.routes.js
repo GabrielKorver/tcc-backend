@@ -12,10 +12,11 @@ export default function agendamentosRoutes(fastify) {
     });
 
     fastify.delete('/delete/:id', async (req, reply) => {
-        return agendamentosController.delete(req)
-    })
+        return agendamentosController.delete(req, reply);
+    });
 
-    //   fastify.put("/put/:id", async (req, reply) => {
-    //     return usersController.put(req, reply);
-    //   });
+
+    fastify.put("/put/:id", async (req, reply) => {
+        return agendamentosController.put(req, reply);
+    });
 }
