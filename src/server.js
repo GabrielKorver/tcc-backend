@@ -8,6 +8,7 @@ import cors from "@fastify/cors";
 // IMPORTANDO AS ROTAS
 import usersRoutes from "./routes/users.routes.js";
 import perguntasRoutes from "./routes/perguntas.routes.js";
+import respostasRoutes from "./routes/respostas.routes.js";
 import nodeMailRoutes from "./routes/nodemail.routes.js";
 import assuntosRoutes from "./routes/assuntos.routes.js";
 import mentoriaRoutes from "./routes/mentoria.routes.js";
@@ -35,6 +36,10 @@ fastify.register(usersRoutes, {
 
 fastify.register(perguntasRoutes, {
   prefix: "/perguntas",
+});
+
+fastify.register(respostasRoutes, {
+  prefix: "/respostas",
 });
 
 fastify.register(assuntosRoutes, {
