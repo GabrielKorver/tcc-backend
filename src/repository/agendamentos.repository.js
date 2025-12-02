@@ -11,8 +11,18 @@ const agendamentosRepository = {
   async get() {
     try {
       const agendamentos = await db`
-           SELECT a.id, a.nome, a.telefone, TO_CHAR(a.data_agendamento, 'DD/MM/YYYY HH24:MI') AS data_agendamento, TO_CHAR(a.data_criacao, 'DD/MM/YYYY HH24:MI:SS') AS data_criacao, a.mentoria_id, m.nome AS mentoria_nome FROM agendamentos AS a JOIN mentoria AS m ON a.mentoria_id = m.id
-        `;
+        SELECT 
+          a.id, 
+          a.nome, 
+          a.telefone, 
+          TO_CHAR(a.data_agendamento, 'DD/MM/YYYY HH24:MI') AS data_agendamento, 
+          TO_CHAR(a.data_criacao, 'DD/MM/YYYY HH24:MI:SS') AS data_criacao, 
+          a.mentoria_id, 
+          m.nome AS mentoria_nome 
+        FROM agendamentos AS a 
+        JOIN mentoria AS m ON a.mentoria_id = m.id
+        ORDER BY a.data_agendamento DESC
+      `;
 
       return agendamentos;
     } catch (error) {
